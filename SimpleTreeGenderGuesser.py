@@ -1,4 +1,7 @@
-from sklearn import tree 
+# pylint: disable=no-member
+from sklearn import tree
+from sklearn import ensemble
+from sklearn import neighbors
 import random
 
 # [height, weight, shoe size]
@@ -7,9 +10,15 @@ X = [[178, 65, 43], [167, 50, 38], [150, 40, 36], [190, 90, 45], [185, 84, 44], 
 # gender labels
 Y = ['male',        'female',      'female',      'male',        'male',        'male',         'female',     'female',      'female',      'male']
 
-myClassifier = tree.DecisionTreeClassifier()
+myClassifierTree = tree.DecisionTreeClassifier()
+myClassifierTree = myClassifierTree.fit(X,Y)
 
-myClassifier = myClassifier.fit(X,Y)
+myClassifierAdaBoost = ensemble.AdaBoostClassifier()
+myClassifierAdaBoost = myClassifierAdaBoost.fit(X,Y)
+
+myClassifierRandforest = ensemble.RandomForestClassifier()
+myClassifierRandforest = myClassifierRandforest.fit(X,Y)
+
 
 for i in range(5):
     random.seed(i)
@@ -18,6 +27,17 @@ for i in range(5):
     randShoesize = random.randint(35,45)
 
     randPerson = [[randHeight, randWeight, randShoesize]]
-    prediction = myClassifier.predict(randPerson)
+
+    predictionTree = myClassifierTree.predict(randPerson)
+    predictionAdaBoost = myClassifierAdaBoost.predict(randPerson)
+    predictionRandForest= myClassifierRandforest.predict(randPerson)
+
     print(randPerson)
-    print(prediction)
+    print("Tree:")
+    print(predictionTree)
+
+    print("AdaBoost:")
+    print(predictionAdaBoost)
+
+    print("Random forest:")
+    print(predictionRandForest)
